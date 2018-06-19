@@ -41,6 +41,7 @@ public class ExceptionFile {
 		try {
 			
 			fileName = generateFileName();
+			System.out.println(fileName);
 			
 		} catch (ParseException e) {
 			
@@ -81,11 +82,10 @@ public class ExceptionFile {
 	
 	private static String generateFileName() throws ParseException {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("_dd-M-yyyy_hh-mm-ss_");
-		String dateInString = "31-08-1982 10:20:56";
-		Date date = sdf.parse(dateInString);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("_yyyy-MM-dd_HH-mm-ss");
+		Date date = new Date();
 		
-		return "crash_logs" + date;
+		return "crash_logs" + dateFormat.format(date);
 		
 	}
 	
