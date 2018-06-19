@@ -10,6 +10,11 @@ public class VersionData {
 		this.version = v;
 	}
 	
+	public String toString() {
+		return url + "  " + version;
+		
+	}
+	
 	public String getVersion() {
 		return version;
 	}
