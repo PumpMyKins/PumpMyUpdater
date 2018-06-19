@@ -106,11 +106,13 @@ public class Utils {
 		} catch (MalformedURLException e) { 
 	    	  
 			isOk = false;
+			Utils.AddException(e);
 	    	System.err.println("Problème avec l'URL : " + filePath); 
 	    	  
 	    } catch (IOException e) { 
 	    	  
 	    	isOk = false;
+	    	Utils.AddException(e);
 	    	e.printStackTrace();
 	        
 	    } finally{
@@ -123,6 +125,7 @@ public class Utils {
 	    	} catch (IOException e) {
 	    		  
 	    		isOk = false;
+	    		Utils.AddException(e);
 	    		e.printStackTrace();
 	    		  
 	    	}
