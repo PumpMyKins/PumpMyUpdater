@@ -6,13 +6,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.swing.JOptionPane;
+
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 public class XmlChecker {
 
-	private static String url = "http://launcher.pumpmykins.eu/launcher-jar-updater/pumpmylauncher.xml";
+	private static String url = "http://launcher.pumpmykins.eu/launcher-jar-updater/pumpmyupdater.xml";
 	
 	public static Document buildXmlDocument(String url) {
 		
@@ -60,7 +62,12 @@ public class XmlChecker {
 	
 	public XmlChecker() {
 		
+		xmlDoc = buildXmlDocument(url);
 		
+		if(xmlDoc == null) {
+			JOptionPane.showMessageDialog(null,"","",JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		
 	}
 
