@@ -50,14 +50,11 @@ public class ExceptionFile {
 		}
 		
 		try {
-            // Assume default encoding.
+			
             FileWriter fileWriter = new FileWriter(fileName);
 
-            // Always wrap FileWriter in BufferedWriter.
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
-            // Note that write() does not automatically
-            // append a newline character.
             bufferedWriter.write("============================  Crash report  ======================================\n\n");
             
             for (String string : errorList) {
@@ -67,7 +64,6 @@ public class ExceptionFile {
             	
 			}
 
-            // Always close files.
             bufferedWriter.close();
         }
         catch(IOException ex) {
