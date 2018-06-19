@@ -41,22 +41,18 @@ public class XmlChecker {
 			try {
 				doc = sxb.build(stream);
 			} catch (JDOMException e) {
-				ExceptionManager.addError(e.getMessage());
-				ExceptionFile.addError(Utils.getStringByStackTrace(e.getStackTrace()));				
+				Utils.AddException(e);		
 				e.printStackTrace();
 			} catch (IOException e) {
-				ExceptionManager.addError(e.getMessage());
-				ExceptionFile.addError(Utils.getStringByStackTrace(e.getStackTrace()));
+				Utils.AddException(e);
 				e.printStackTrace();
 			}
 		
 		} catch (MalformedURLException e) {
-			ExceptionManager.addError(e.getMessage());
-			ExceptionFile.addError(Utils.getStringByStackTrace(e.getStackTrace()));
+			Utils.AddException(e);
 			e.printStackTrace();
 		} catch (IOException e) {
-			ExceptionManager.addError(e.getMessage());
-			ExceptionFile.addError(Utils.getStringByStackTrace(e.getStackTrace()));
+			Utils.AddException(e);
 			e.printStackTrace();
 		}
 		
@@ -80,8 +76,7 @@ public class XmlChecker {
 		
 		if(xmlDoc == null) {
 			
-			ExceptionManager.show();
-			ExceptionFile.pushFile();
+			Utils.pushException();
 			return;
 		}else {
 			
