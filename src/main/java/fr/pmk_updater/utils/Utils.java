@@ -47,12 +47,16 @@ public class Utils {
 	 * @param filePath
 	 * @param destination
 	 */
-	public static void downloadFile(String filePath, String destination) { 
+	public static boolean downloadFile(String filePath, String destination) { 
+		
+		boolean isOk = true;
+		
 		URLConnection connection = null;
 		InputStream is = null;
 		FileOutputStream destinationFile = null;
 		
 		try { 
+			
 			//On crée l'URL
 	        URL url = new URL(filePath);
 
@@ -99,18 +103,32 @@ public class Utils {
 			//On vide le tampon et on ferme le stream
 			destinationFile.flush();
 
-	      } catch (MalformedURLException e) { 
-	    	  System.err.println("Problème avec l'URL : " + filePath); 
-	      } catch (IOException e) { 
-	        e.printStackTrace();
-	      } finally{
-	    	  try {
-	    		  is.close();
-				  destinationFile.close();
-	    	  } catch (IOException e) {
-	    		  e.printStackTrace();
-	    	  }
-	      }
+		} catch (MalformedURLException e) { 
+	    	  
+			isOk = false;
+	    	System.err.println("Problème avec l'URL : " + filePath); 
+	    	  
+	    } catch (IOException e) { 
+	    	  
+	    	isOk = false;
+	    	e.printStackTrace();
+	        
+	    } finally{
+	    	  
+	    	try {
+	    		  
+	    		is.close();
+				destinationFile.close();
+				  
+	    	} catch (IOException e) {
+	    		  
+	    		isOk = false;
+	    		e.printStackTrace();
+	    		  
+	    	}
+	    }
+		
+		return isOk;
 	}
 	
 }
