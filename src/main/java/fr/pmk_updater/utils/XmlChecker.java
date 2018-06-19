@@ -128,7 +128,7 @@ public class XmlChecker {
 			Element elementUrl = version.getChild("url");
 			
 			String versionName = elementNom.getText();
-			VersionData vData = new VersionData(versionName, elementUrl.getText());
+			VersionData vData = new VersionData(elementUrl.getText() , versionName);
 			
 			if(versionName.equals(lastDevVersion)) {
 				
