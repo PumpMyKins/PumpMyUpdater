@@ -6,21 +6,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import javax.swing.JOptionPane;
-
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
+import fr.pmk_updater.exception.ExceptionFile;
+import fr.pmk_updater.exception.ExceptionManager;
+
 public class XmlChecker {
 
-	private static String url = "http://launcher.pumpmykins.eu/launcher-jar-updater/pumpmyupdater.xml";
+	private static String url = "";
 	
 	public static Document buildXmlDocument(String url) {
 		
 		Document doc = null;
 		
 		try {
+			
 			URL xmlUrl = new URL(url);
 			
 			//On ouvre une connections ur la page
@@ -36,13 +38,25 @@ public class XmlChecker {
 			SAXBuilder sxb = new SAXBuilder();
 						
 			//On crée le document xml avec son flux
-			try {doc = sxb.build(stream);
-			} catch (JDOMException e) {e.printStackTrace();
-			} catch (IOException e) {e.printStackTrace();}
+			try {
+				doc = sxb.build(stream);
+			} catch (JDOMException e) {
+				ExceptionManager.addError(e.getMessage());
+				ExceptionFile.addError(Utils.getStringByStackTrace(e.getStackTrace()));				
+				e.printStackTrace();
+			} catch (IOException e) {
+				ExceptionManager.addError(e.getMessage());
+				ExceptionFile.addError(Utils.getStringByStackTrace(e.getStackTrace()));
+				e.printStackTrace();
+			}
 		
 		} catch (MalformedURLException e) {
+			ExceptionManager.addError(e.getMessage());
+			ExceptionFile.addError(Utils.getStringByStackTrace(e.getStackTrace()));
 			e.printStackTrace();
 		} catch (IOException e) {
+			ExceptionManager.addError(e.getMessage());
+			ExceptionFile.addError(Utils.getStringByStackTrace(e.getStackTrace()));
 			e.printStackTrace();
 		}
 		
@@ -65,7 +79,9 @@ public class XmlChecker {
 		xmlDoc = buildXmlDocument(url);
 		
 		if(xmlDoc == null) {
-			JOptionPane.showMessageDialog(null,"","",JOptionPane.ERROR_MESSAGE);
+			
+			ExceptionManager.show();
+			ExceptionFile.pushFile();
 			return;
 		}
 		
