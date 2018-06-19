@@ -4,10 +4,12 @@ public class VersionData {
 
 	private String url;
 	private String version;
+	private String checksum;
 	
-	public VersionData(String u, String v) {
+	public VersionData(String u, String v, String c) {
 		this.url = u;
 		this.version = v;
+		this.checksum = c;
 	}
 	
 	public String toString() {
@@ -27,6 +29,14 @@ public class VersionData {
 	}
 	public void setUlr(String u) {
 		this.url = u;
+	}
+
+	public String getChecksum() {
+		return checksum;
+	}
+
+	public void setChecksum(String c){
+		this.checksum = c;
 	}
 	
 }
