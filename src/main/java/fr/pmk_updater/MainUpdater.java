@@ -1,6 +1,8 @@
 package fr.pmk_updater;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 
 import fr.pmk_updater.exception.ExceptionManager;
 import fr.pmk_updater.launcher.LauncherUtils;
@@ -56,6 +58,7 @@ public class MainUpdater {
 			}
 			
 			// check de la file
+			System.out.println("Checksum : " + LauncherUtils.getChecksum(file));
 			
 			isOk = LauncherUtils.checkFile(version,file);
 			
@@ -67,6 +70,15 @@ public class MainUpdater {
 			}
 			
 			// lancement du .jar
+			try {
+				Desktop.getDesktop().open(file);
+			} catch (IOException e) {
+				
+				Utils.AddException(e);
+				Utils.pushException();
+				e.printStackTrace();
+				return;
+			}
 			
 		}else {
 			
