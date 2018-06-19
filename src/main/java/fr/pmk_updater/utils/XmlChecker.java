@@ -18,6 +18,8 @@ public class XmlChecker {
 
 	private static String url = "http://launcher.pumpmykins.eu/launcher-jar-updater/pumpmyupdater.xml";
 	
+	private static String currentFolder = System.getProperty("user.dir");
+	
 	public static Document buildXmlDocument(String url) {
 		
 		Document doc = null;
@@ -128,7 +130,7 @@ public class XmlChecker {
 			Element elementUrl = version.getChild("url");
 			
 			String versionName = elementNom.getText();
-			VersionData vData = new VersionData(elementUrl.getText() , versionName);
+			VersionData vData = new VersionData(elementUrl.getText() , versionName,"");
 			
 			if(versionName.equals(lastDevVersion)) {
 				
@@ -227,6 +229,14 @@ public class XmlChecker {
 
 	public void setLastStableVersion(String lastStableVersion) {
 		this.lastStableVersion = lastStableVersion;
+	}
+
+	public static String getCurrentFolder() {
+		return currentFolder;
+	}
+
+	public static void setCurrentFolder(String currentFolder) {
+		XmlChecker.currentFolder = currentFolder;
 	}
 	
 	
