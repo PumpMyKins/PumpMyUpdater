@@ -83,6 +83,10 @@ public class XmlChecker {
 			ExceptionManager.show();
 			ExceptionFile.pushFile();
 			return;
+		}else {
+			
+			// récupération methods réussie
+			
 		}
 		
 	}
