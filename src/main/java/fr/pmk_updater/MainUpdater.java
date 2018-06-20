@@ -3,6 +3,7 @@ package fr.pmk_updater;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import fr.pmk_updater.exception.ExceptionManager;
 import fr.pmk_updater.launcher.LauncherUtils;
@@ -64,7 +65,6 @@ public class MainUpdater {
 			
 			if(!isOk) {
 				
-				
 				Utils.pushException();
 				return;
 				
@@ -72,13 +72,14 @@ public class MainUpdater {
 			
 			// lancement du .jar
 			try {
-				Desktop.getDesktop().open(file);
+				
+				Process proc = Runtime.getRuntime().exec("java -jar launcher.jar");
+				
 			} catch (IOException e) {
 				
 				Utils.addException(e);
 				Utils.pushException();
 				e.printStackTrace();
-				return;
 			}
 			
 		}else {
@@ -86,11 +87,6 @@ public class MainUpdater {
 			
 			
 		}
-		
-	}
-
-	private static boolean checkLauncherIsValid(File l) {
-		return DEV_MODE;
 		
 	}
 	
