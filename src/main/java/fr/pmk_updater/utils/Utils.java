@@ -25,10 +25,17 @@ public class Utils {
 		
 	}
 	
-	public static void AddException(Exception e) {
+	public static void addException(Exception e) {
 		
 		ExceptionManager.addError("[ " + e.getClass().toString() + " ] " + e.getMessage());
 		ExceptionFile.addError("[ " + e.getClass().toString() + " ] " + e.getMessage() + "\n" +Utils.getStringByStackTrace(e.getStackTrace()));
+		
+	}
+	
+	public static void addException(String s) {
+		
+		ExceptionManager.addError(s);
+		ExceptionFile.addError(s);
 		
 	}
 	
@@ -106,13 +113,13 @@ public class Utils {
 		} catch (MalformedURLException e) { 
 	    	  
 			isOk = false;
-			Utils.AddException(e);
+			Utils.addException(e);
 	    	System.err.println("Problème avec l'URL : " + filePath); 
 	    	  
 	    } catch (IOException e) { 
 	    	  
 	    	isOk = false;
-	    	Utils.AddException(e);
+	    	Utils.addException(e);
 	    	e.printStackTrace();
 	        
 	    } finally{
@@ -125,7 +132,7 @@ public class Utils {
 	    	} catch (IOException e) {
 	    		  
 	    		isOk = false;
-	    		Utils.AddException(e);
+	    		Utils.addException(e);
 	    		e.printStackTrace();
 	    		  
 	    	}
