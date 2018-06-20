@@ -49,7 +49,7 @@ public class MainUpdater {
 		if(!file.exists()) {
 			// launcher non existant
 			
-			int retour = JOptionPane.showConfirmDialog(null, "Aucun launcher trouvé !\nVoulez vous lancer le téléchargement du launcher ?" , "Attente de confirmation" , JOptionPane.OK_CANCEL_OPTION );
+			int retour = JOptionPane.showConfirmDialog(null, "Aucun launcher trouvé !\nVoulez vous lancer le téléchargement du launcher ? \nCette opération est très rapide." , "Attente de confirmation" , JOptionPane.OK_CANCEL_OPTION );
 			
 			if(retour == JOptionPane.OK_OPTION) {
 				
@@ -87,11 +87,89 @@ public class MainUpdater {
 					
 				}
 				
+			}else {
+				return;
 			}
 			
 		}else {
 			
+			//launcher trouvé
 			
+			boolean isOk = LauncherUtils.checkFile(version,file);
+			
+			if(!isOk) {
+				
+				int retour = JOptionPane.showConfirmDialog(null, "Le launcher trouvé est non à jour ou corrompu !\nVoulez vous lancer le téléchargement d'un nouveau launcher launcher ? \nCette opération est très rapide." , "Attente de confirmation" , JOptionPane.OK_CANCEL_OPTION );
+				
+				if(retour == JOptionPane.OK_OPTION) {
+					
+					boolean isOk1 = LauncherUtils.download(version);
+					
+					if(!isOk1) {
+						
+						Utils.pushException();
+						return;
+						
+					}
+					
+					// check de la file
+					System.out.println("Checksum du fichier téléchargé : " + LauncherUtils.getChecksum(file));
+					
+					isOk1 = LauncherUtils.checkFile(version,file);
+					
+					if(!isOk1) {
+						
+						Utils.pushException();
+						return;
+						
+					}
+					
+					// lancement du .jar
+					try {
+						
+						Process proc = Runtime.getRuntime().exec("java -jar launcher.jar");
+						
+					} catch (IOException e) {
+						
+						Utils.addException(e);
+						Utils.pushException();
+						e.printStackTrace();
+						
+					}
+				}else {
+					
+					JOptionPane.showMessageDialog(null, "Attention ! Ignoré cette avertissement pourrait entrainer des bugs", "Attention", JOptionPane.INFORMATION_MESSAGE);
+					// lancement du .jar
+					try {
+						
+						Process proc = Runtime.getRuntime().exec("java -jar launcher.jar");
+						
+					} catch (IOException e) {
+						
+						Utils.addException(e);
+						Utils.pushException();
+						e.printStackTrace();
+						
+					}
+					
+				}
+				
+			}else {
+				
+				// lancement du .jar
+				try {
+					
+					Process proc = Runtime.getRuntime().exec("java -jar launcher.jar");
+					
+				} catch (IOException e) {
+					
+					Utils.addException(e);
+					Utils.pushException();
+					e.printStackTrace();
+					
+				}
+				
+			}
 			
 		}
 		
