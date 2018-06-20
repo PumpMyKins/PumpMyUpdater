@@ -13,7 +13,7 @@ public class VersionData {
 	}
 	
 	public String toString() {
-		return "URL : " + url + "\n version : " + version + "\n Checksum : " + checksum;
+		return "URL : " + url + "\nVersion : " + version + "\nChecksum : " + checksum;
 		
 	}
 	
