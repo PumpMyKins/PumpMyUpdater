@@ -34,6 +34,7 @@ public class LauncherUtils {
 			
 		}else {
 			
+			Utils.addException("Mauvais checksum trouvé ( " + md5 + " )\nXml checksum : " + v.getChecksum());
 			return false;
 			
 		}
