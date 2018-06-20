@@ -1,9 +1,8 @@
 package fr.pmk_updater;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import javax.swing.JOptionPane;
 
 import fr.pmk_updater.exception.ExceptionManager;
 import fr.pmk_updater.launcher.LauncherUtils;
@@ -49,37 +48,45 @@ public class MainUpdater {
 		
 		if(!file.exists()) {
 			// launcher non existant
-			boolean isOk = LauncherUtils.download(version);
 			
-			if(!isOk) {
-				
-				Utils.pushException();
-				return;
-				
-			}
+			int retour = JOptionPane.showConfirmDialog(null, "Aucun launcher trouvé !\nVoulez vous lancer le téléchargement du launcher ?" , "Attente de confirmation" , JOptionPane.OK_CANCEL_OPTION );
 			
-			// check de la file
-			System.out.println("Checksum du fichier téléchargé : " + LauncherUtils.getChecksum(file));
-			
-			isOk = LauncherUtils.checkFile(version,file);
-			
-			if(!isOk) {
+			if(retour == JOptionPane.OK_OPTION) {
 				
-				Utils.pushException();
-				return;
+				boolean isOk = LauncherUtils.download(version);
 				
-			}
-			
-			// lancement du .jar
-			try {
+				if(!isOk) {
+					
+					Utils.pushException();
+					return;
+					
+				}
 				
-				Process proc = Runtime.getRuntime().exec("java -jar launcher.jar");
+				// check de la file
+				System.out.println("Checksum du fichier téléchargé : " + LauncherUtils.getChecksum(file));
 				
-			} catch (IOException e) {
+				isOk = LauncherUtils.checkFile(version,file);
 				
-				Utils.addException(e);
-				Utils.pushException();
-				e.printStackTrace();
+				if(!isOk) {
+					
+					Utils.pushException();
+					return;
+					
+				}
+				
+				// lancement du .jar
+				try {
+					
+					Process proc = Runtime.getRuntime().exec("java -jar launcher.jar");
+					
+				} catch (IOException e) {
+					
+					Utils.addException(e);
+					Utils.pushException();
+					e.printStackTrace();
+					
+				}
+				
 			}
 			
 		}else {
