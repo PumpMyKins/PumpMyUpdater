@@ -19,12 +19,25 @@ public class LauncherUtils {
 		return Utils.downloadFile(version.getUlr(), XmlChecker.getCurrentFolder() + File.separator + MainUpdater.JAR_NAME);
 	}
 
-	public static boolean checkFile(VersionData version, File file) {
+	public static boolean checkFile(VersionData v, File f) {
 		// TODO Auto-generated method stub
 		
+		String md5 = getChecksum(f);
 		
+		if(md5 == null) {
+			return false;
+		}
 		
-		return false;
+		if(md5.equals(v.getChecksum())) {
+			
+			return true;
+			
+		}else {
+			
+			return false;
+			
+		}
+		
 	}
 	
 	public static String getChecksum(File f) {
@@ -38,11 +51,11 @@ public class LauncherUtils {
 			fis.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			Utils.AddException(e);
+			Utils.addException(e);
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			Utils.AddException(e);
+			Utils.addException(e);
 			e.printStackTrace();
 		}
 		

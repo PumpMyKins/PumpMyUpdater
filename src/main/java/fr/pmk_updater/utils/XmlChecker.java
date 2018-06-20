@@ -44,18 +44,18 @@ public class XmlChecker {
 			try {
 				doc = sxb.build(stream);
 			} catch (JDOMException e) {
-				Utils.AddException(e);		
+				Utils.addException(e);		
 				e.printStackTrace();
 			} catch (IOException e) {
-				Utils.AddException(e);
+				Utils.addException(e);
 				e.printStackTrace();
 			}
 		
 		} catch (MalformedURLException e) {
-			Utils.AddException(e);
+			Utils.addException(e);
 			e.printStackTrace();
 		} catch (IOException e) {
-			Utils.AddException(e);
+			Utils.addException(e);
 			e.printStackTrace();
 		}
 		

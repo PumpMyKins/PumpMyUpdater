@@ -42,7 +42,7 @@ public class MainUpdater {
 		
 		VersionData version = xmlChecker.getLastVersionData(DEV_MODE);
 		
-		System.out.println("Versions à téléchager : " + version);
+		System.out.println("Versions à téléchager : \n" + version);
 		
 		File file = new File("launcher.jar");
 		
@@ -58,11 +58,12 @@ public class MainUpdater {
 			}
 			
 			// check de la file
-			System.out.println("Checksum : " + LauncherUtils.getChecksum(file));
+			System.out.println("Checksum du fichier téléchargé : " + LauncherUtils.getChecksum(file));
 			
 			isOk = LauncherUtils.checkFile(version,file);
 			
 			if(!isOk) {
+				
 				
 				Utils.pushException();
 				return;
@@ -74,7 +75,7 @@ public class MainUpdater {
 				Desktop.getDesktop().open(file);
 			} catch (IOException e) {
 				
-				Utils.AddException(e);
+				Utils.addException(e);
 				Utils.pushException();
 				e.printStackTrace();
 				return;
