@@ -41,7 +41,7 @@ public class ExceptionFile {
 		try {
 			
 			fileName = generateFileName();
-			System.out.println(fileName);
+			System.out.println("Nom du fichier de log : " + fileName);
 			
 		} catch (ParseException e) {
 			
