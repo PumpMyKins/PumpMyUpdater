@@ -10,6 +10,8 @@ import fr.pmk_updater.utils.Utils;
 import fr.pmk_updater.utils.VersionData;
 import fr.pmk_updater.utils.XmlChecker;
 
+//Modification
+
 public class MainUpdater {
 
 	public static boolean DEV_MODE;
