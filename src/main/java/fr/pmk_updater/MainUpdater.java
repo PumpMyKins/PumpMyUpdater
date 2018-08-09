@@ -10,7 +10,7 @@ import fr.pmk_updater.utils.Utils;
 import fr.pmk_updater.utils.VersionData;
 import fr.pmk_updater.utils.XmlChecker;
 
-//Modification
+//Modification 1
 
 public class MainUpdater {
 
