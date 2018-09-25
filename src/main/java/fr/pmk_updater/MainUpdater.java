@@ -1,16 +1,9 @@
 package fr.pmk_updater;
 
-import java.io.File;
 import java.io.IOException;
-import javax.swing.JOptionPane;
 
-import fr.pmk_updater.exception.ExceptionManager;
-import fr.pmk_updater.launcher.LauncherUtils;
+import fr.pmk_updater.gui.UpdaterFrame;
 import fr.pmk_updater.utils.Utils;
-import fr.pmk_updater.utils.VersionData;
-import fr.pmk_updater.utils.XmlChecker;
-
-//Modification 1
 
 public class MainUpdater {
 
@@ -18,6 +11,39 @@ public class MainUpdater {
 	public static String JAR_NAME = "launcher.jar";
 	
 	public static void main(String[] args) {
+		
+		try {
+			new UpdaterFrame();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			close();
+			Utils.addException(e);
+			Utils.pushException();
+			return;
+		}
+		
+		
+		
+	    /*JFrame frame = new JFrame (" Basic Frame");
+	    
+	    frame.setUndecorated(true);
+	    frame.setBackground(new Color(0,0,0,0));
+	    frame.setSize(300,500);
+	    centerFrame(frame);
+	    frame.setIconImage(new ImageIcon(MainUpdater.class.getResource("/pmk.ico")).getImage());
+	    frame.setVisible(true);
+	    
+	    System.out.println(MainUpdater.class.getResource("/pmk.ico"));
+	    
+	    ImageIcon icone = new ImageIcon("src/main/ressources/Logo1.png");
+	    
+	    JLabel image = new JLabel(icone);
+	    frame.add(image);
+	    frame.setVisible(true);
+	    */
+
+	      
+		/*
 		
 		if(args.length != 1) {
 			DEV_MODE = false;
