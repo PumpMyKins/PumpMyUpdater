@@ -201,6 +201,14 @@ public class MainUpdater {
 			
 		}
 		
+		*/
+		
+	}
+
+	public static void close() {
+		// TODO Auto-generated method stub
+		//close thread and update procedure
+		System.out.println("Windows close");
 	}
 	
 }
