@@ -20,7 +20,7 @@ public class XmlChecker {
 	
 	private static String currentFolder = System.getProperty("user.dir");
 	
-	public static Document buildXmlDocument(String url) {
+	private Document buildXmlDocument(String url) {
 		
 		Document doc = null;
 		
@@ -45,18 +45,14 @@ public class XmlChecker {
 				doc = sxb.build(stream);
 			} catch (JDOMException e) {
 				Utils.addException(e);		
-				e.printStackTrace();
 			} catch (IOException e) {
 				Utils.addException(e);
-				e.printStackTrace();
 			}
 		
 		} catch (MalformedURLException e) {
 			Utils.addException(e);
-			e.printStackTrace();
 		} catch (IOException e) {
 			Utils.addException(e);
-			e.printStackTrace();
 		}
 		
 		return doc;
