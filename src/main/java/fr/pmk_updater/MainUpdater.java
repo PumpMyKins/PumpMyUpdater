@@ -1,23 +1,36 @@
 package fr.pmk_updater;
 
-import java.io.File;
-import java.io.IOException;
-import javax.swing.JOptionPane;
-
 import fr.pmk_updater.exception.ExceptionManager;
-import fr.pmk_updater.launcher.LauncherUtils;
+import fr.pmk_updater.gui.UpdaterFrame;
 import fr.pmk_updater.utils.Utils;
-import fr.pmk_updater.utils.VersionData;
-import fr.pmk_updater.utils.XmlChecker;
-
-//Modification 1
 
 public class MainUpdater {
 
 	public static boolean DEV_MODE;
 	public static String JAR_NAME = "launcher.jar";
 	
+	private static UpdaterThread updaterThread;
+	private static UpdaterFrame updateFrame;
+	
+	public static UpdaterFrame getFrame() {
+		return updateFrame;
+	}
+	
 	public static void main(String[] args) {
+		
+		ExceptionManager.setTitle(" Error box ");
+		
+		try {
+			updateFrame = new UpdaterFrame();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Utils.addException(e);
+			Utils.pushException();
+			closeFrame();
+			return;
+		}
+		
+		updaterThread = new UpdaterThread(updateFrame);
 		
 		if(args.length != 1) {
 			DEV_MODE = false;
@@ -29,9 +42,13 @@ public class MainUpdater {
 			}
 		}
 		
-		System.out.println("Etat du mode developpeur : " + DEV_MODE);
+		System.out.println("Etat du mode developpeur : " + DEV_MODE);		
 		
-		ExceptionManager.setTitle(" Error box ");
+		updaterThread.start();
+			
+		/*
+		
+		
 		
 		XmlChecker xmlChecker = new XmlChecker();
 		
@@ -173,7 +190,21 @@ public class MainUpdater {
 				
 			}
 			
-		}
+		}	
+		
+		*/
+			
+	}
+
+	public static void closeThread() {
+		// TODO Auto-generated method stub
+		//close thread and update procedure		
+		updaterThread.interrupt();	
+	}
+	
+	public static void closeFrame() {
+		
+		updateFrame.close();
 		
 	}
 	

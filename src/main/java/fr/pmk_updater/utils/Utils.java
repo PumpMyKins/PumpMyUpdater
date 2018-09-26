@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import fr.pmk_updater.MainUpdater;
 import fr.pmk_updater.exception.ExceptionFile;
 import fr.pmk_updater.exception.ExceptionManager;
 
@@ -40,6 +41,8 @@ public class Utils {
 	}
 	
 	public static void pushException() {
+		
+		MainUpdater.getFrame().setUpdaterState("ERROR !!!");
 		
 		ExceptionManager.addError("\n Allez voir le fichier de logs pour plus d'informations");
 		ExceptionManager.show();
