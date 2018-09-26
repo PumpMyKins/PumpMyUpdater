@@ -1,7 +1,6 @@
 package fr.pmk_updater;
 
-import java.io.IOException;
-
+import fr.pmk_updater.exception.ExceptionManager;
 import fr.pmk_updater.gui.UpdaterFrame;
 import fr.pmk_updater.utils.Utils;
 
@@ -10,40 +9,28 @@ public class MainUpdater {
 	public static boolean DEV_MODE;
 	public static String JAR_NAME = "launcher.jar";
 	
+	private static UpdaterThread updaterThread;
+	private static UpdaterFrame updateFrame;
+	
+	public static UpdaterFrame getFrame() {
+		return updateFrame;
+	}
+	
 	public static void main(String[] args) {
 		
+		ExceptionManager.setTitle(" Error box ");
+		
 		try {
-			new UpdaterFrame();
-		} catch (IOException e) {
+			updateFrame = new UpdaterFrame();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			close();
 			Utils.addException(e);
 			Utils.pushException();
+			closeFrame();
 			return;
 		}
 		
-		
-		
-	    /*JFrame frame = new JFrame (" Basic Frame");
-	    
-	    frame.setUndecorated(true);
-	    frame.setBackground(new Color(0,0,0,0));
-	    frame.setSize(300,500);
-	    centerFrame(frame);
-	    frame.setIconImage(new ImageIcon(MainUpdater.class.getResource("/pmk.ico")).getImage());
-	    frame.setVisible(true);
-	    
-	    System.out.println(MainUpdater.class.getResource("/pmk.ico"));
-	    
-	    ImageIcon icone = new ImageIcon("src/main/ressources/Logo1.png");
-	    
-	    JLabel image = new JLabel(icone);
-	    frame.add(image);
-	    frame.setVisible(true);
-	    */
-
-	      
-		/*
+		updaterThread = new UpdaterThread(updateFrame);
 		
 		if(args.length != 1) {
 			DEV_MODE = false;
@@ -55,9 +42,13 @@ public class MainUpdater {
 			}
 		}
 		
-		System.out.println("Etat du mode developpeur : " + DEV_MODE);
+		System.out.println("Etat du mode developpeur : " + DEV_MODE);		
 		
-		ExceptionManager.setTitle(" Error box ");
+		updaterThread.start();
+			
+		/*
+		
+		
 		
 		XmlChecker xmlChecker = new XmlChecker();
 		
@@ -199,16 +190,22 @@ public class MainUpdater {
 				
 			}
 			
-		}
+		}	
 		
 		*/
-		
+			
 	}
 
-	public static void close() {
+	public static void closeThread() {
 		// TODO Auto-generated method stub
-		//close thread and update procedure
-		System.out.println("Windows close");
+		//close thread and update procedure		
+		updaterThread.interrupt();	
+	}
+	
+	public static void closeFrame() {
+		
+		updateFrame.close();
+		
 	}
 	
 }
