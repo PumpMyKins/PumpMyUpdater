@@ -16,7 +16,7 @@ public class UpdaterFrameListener implements WindowListener {
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
-		MainUpdater.close();
+		MainUpdater.closeThread();
 	}
 
 	@Override
