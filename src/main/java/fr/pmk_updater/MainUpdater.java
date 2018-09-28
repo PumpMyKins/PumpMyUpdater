@@ -1,7 +1,10 @@
 package fr.pmk_updater;
 
+import java.awt.EventQueue;
+
 import fr.pmk_updater.exception.ExceptionManager;
 import fr.pmk_updater.gui.UpdaterFrame;
+import fr.pmk_updater.gui.test;
 import fr.pmk_updater.utils.Utils;
 
 public class MainUpdater {
@@ -16,18 +19,26 @@ public class MainUpdater {
 		return updateFrame;
 	}
 	
+	private static void setFrame(UpdaterFrame f) {
+		updateFrame = f;
+	}
+	
 	public static void main(String[] args) {
 		
 		ExceptionManager.setTitle(" Error box ");
 		
 		try {
-			updateFrame = new UpdaterFrame();
+			MainUpdater.setFrame(new UpdaterFrame());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Utils.addException(e);
-			Utils.pushException();
-			closeFrame();
-			return;
+				// TODO Auto-generated catch block
+				Utils.addException(e);
+				Utils.pushException();
+				closeFrame();
+				return;
+		}
+					
+		while(updateFrame == null) {
+			
 		}
 		
 		updaterThread = new UpdaterThread(updateFrame);
