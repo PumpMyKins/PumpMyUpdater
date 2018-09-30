@@ -1,11 +1,15 @@
 package fr.pmk_updater;
 
-import java.awt.EventQueue;
+import java.io.File;
+
+import javax.swing.JOptionPane;
 
 import fr.pmk_updater.exception.ExceptionManager;
 import fr.pmk_updater.gui.UpdaterFrame;
-import fr.pmk_updater.gui.test;
+import fr.pmk_updater.launcher.LauncherUtils;
 import fr.pmk_updater.utils.Utils;
+import fr.pmk_updater.utils.VersionData;
+import fr.pmk_updater.utils.XmlChecker;
 
 public class MainUpdater {
 
@@ -23,7 +27,7 @@ public class MainUpdater {
 		updateFrame = f;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
 		ExceptionManager.setTitle(" Error box ");
 		
@@ -55,75 +59,83 @@ public class MainUpdater {
 		
 		System.out.println("Etat du mode developpeur : " + DEV_MODE);		
 		
-		updaterThread.start();
-			
-		/*
-		
-		
+		getFrame().setUpdaterState("Getting XLM information ...");
 		
 		XmlChecker xmlChecker = new XmlChecker();
 		
 		if(!xmlChecker.isInit) {
 			
 			Utils.pushException();
+			closeFrame();
 			return;
 			
 		}
 		
-		VersionData version = xmlChecker.getLastVersionData(DEV_MODE);
+		Thread.sleep(250);
+		
+		getFrame().setUpdaterState("Getting lastest version ...");
+		
+		VersionData version = xmlChecker.getLastVersionData(MainUpdater.DEV_MODE);
 		
 		System.out.println("Versions à téléchager : \n" + version);
+		
+		Thread.sleep(250);
+		
+		getFrame().setUpdaterState("Checkin your jar file ...");
 		
 		File file = new File("launcher.jar");
 		
 		if(!file.exists()) {
 			// launcher non existant
 			
-			int retour = JOptionPane.showConfirmDialog(null, "Aucun launcher trouvé !\nVoulez vous lancer le téléchargement du launcher ? \nCette opération est très rapide." , "Attente de confirmation" , JOptionPane.OK_CANCEL_OPTION );
+			Thread.sleep(250);
 			
-			if(retour == JOptionPane.OK_OPTION) {
+			getFrame().setUpdaterState("Getting lastest launcher...");
+			
+			boolean isOk = LauncherUtils.download(version);
 				
-				boolean isOk = LauncherUtils.download(version);
-				
-				if(!isOk) {
+			if(!isOk) {
 					
-					Utils.pushException();
-					return;
-					
-				}
-				
-				// check de la file
-				System.out.println("Checksum du fichier téléchargé : " + LauncherUtils.getChecksum(file));
-				
-				isOk = LauncherUtils.checkFile(version,file);
-				
-				if(!isOk) {
-					
-					Utils.pushException();
-					return;
-					
-				}
-				
-				// lancement du .jar
-				try {
-					
-					Process proc = Runtime.getRuntime().exec("java -jar launcher.jar");
-					
-				} catch (IOException e) {
-					
-					Utils.addException(e);
-					Utils.pushException();
-					e.printStackTrace();
-					
-				}
-				
-			}else {
+				Utils.pushException();
+				closeFrame();
 				return;
+					
 			}
+			
+			Thread.sleep(250);
+			
+			getFrame().setUpdaterState("Calcultating checksum...");
+			
+			// check de la file
+			System.out.println("Checksum du fichier téléchargé : " + LauncherUtils.getChecksum(file));
+				
+			isOk = LauncherUtils.checkFile(version,file);
+				
+			if(!isOk) {
+					
+				Utils.pushException();
+				closeFrame();
+				return;
+					
+			}
+			
+			Thread.sleep(250);
+			
+			getFrame().setUpdaterState("Terminé !");
+			
+			Thread.sleep(250);
+			
+			// lancement du .jar			
+			new StartingThread().start();
+			closeFrame();
 			
 		}else {
 			
 			//launcher trouvé
+			
+			Thread.sleep(500);
+			
+			getFrame().setUpdaterState("Calcultating checksum...");
 			
 			boolean isOk = LauncherUtils.checkFile(version,file);
 			
@@ -132,6 +144,8 @@ public class MainUpdater {
 				int retour = JOptionPane.showConfirmDialog(null, "Le launcher trouvé est non à jour ou corrompu !\nVoulez vous lancer le téléchargement d'un nouveau launcher launcher ? \nCette opération est très rapide." , "Attente de confirmation" , JOptionPane.OK_CANCEL_OPTION );
 				
 				if(retour == JOptionPane.OK_OPTION) {
+					
+					getFrame().setUpdaterState("Getting lastest launcher...");
 					
 					boolean isOk1 = LauncherUtils.download(version);
 					
@@ -142,6 +156,10 @@ public class MainUpdater {
 						
 					}
 					
+					Thread.sleep(250);
+					
+					getFrame().setUpdaterState("Calcultating checksum...");
+					
 					// check de la file
 					System.out.println("Checksum du fichier téléchargé : " + LauncherUtils.getChecksum(file));
 					
@@ -150,60 +168,53 @@ public class MainUpdater {
 					if(!isOk1) {
 						
 						Utils.pushException();
+						closeFrame();
 						return;
 						
 					}
 					
+					Thread.sleep(250);
+					
+					getFrame().setUpdaterState("Terminé !");
+					
+					Thread.sleep(500);
+					
 					// lancement du .jar
-					try {
-						
-						Process proc = Runtime.getRuntime().exec("java -jar launcher.jar");
-						
-					} catch (IOException e) {
-						
-						Utils.addException(e);
-						Utils.pushException();
-						e.printStackTrace();
-						
-					}
+					new StartingThread().start();
+					closeFrame();
+					
+					
 				}else {
 					
 					JOptionPane.showMessageDialog(null, "Attention ! Ignoré cette avertissement pourrait entrainer des bugs", "Attention", JOptionPane.INFORMATION_MESSAGE);
+					
+					Thread.sleep(250);
+					
+					getFrame().setUpdaterState("Terminé !");
+					
+					Thread.sleep(500);
+					
 					// lancement du .jar
-					try {
-						
-						Process proc = Runtime.getRuntime().exec("java -jar launcher.jar");
-						
-					} catch (IOException e) {
-						
-						Utils.addException(e);
-						Utils.pushException();
-						e.printStackTrace();
-						
-					}
+					new StartingThread().start();
+					closeFrame();
 					
 				}
 				
 			}else {
 				
+				Thread.sleep(250);
+				
+				getFrame().setUpdaterState("Terminé !");
+				
+				Thread.sleep(500);
+				
 				// lancement du .jar
-				try {
-					
-					Process proc = Runtime.getRuntime().exec("java -jar launcher.jar");
-					
-				} catch (IOException e) {
-					
-					Utils.addException(e);
-					Utils.pushException();
-					e.printStackTrace();
-					
-				}
+				new StartingThread().start();
+				closeFrame();
 				
 			}
 			
-		}	
-		
-		*/
+		}
 			
 	}
 
